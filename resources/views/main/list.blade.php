@@ -5,7 +5,7 @@
             <h2 class="text-lg font-bold">
                 <a href="{{ route('place.show', $place->slug) }}" class="text-primary-500 hover:text-primary-700 transition duration-200 ease-in-out">{{ $place->name }}</a>
             </h2>
-            <p class="text-sm text-gray-500">{{ $place->description }}</p>
+            <p class="text-sm text-gray-500">{{ str($place->description)->limit(100) }}</p>
             <div class="flex-1"></div>
             <h6 class="w-fit text-xs text-gray-600 inline-block bg-gray-100 px-2 py-1 rounded-full">{{ $place->address }}</h6>
         </div>
