@@ -4,7 +4,7 @@ A simple place rating system with Laravel for insert place and rating it and abi
 # Features
 - Show place on map with and ability to add new place from map with leaflet
 - Responsive location on various screens
-- easy dashboard for admin to manage places and reviews, and ability to add user with role and permisions
+- easy dashboard for admin to manage places and reviews, and ability to add user with role and permisions (You can access to dashboard with this credential in .env file, and you can access to dashboard with this url http://localhost:8000/admin/login)
 - Use livewire for dynamic some commands
 - Search engine optimization is done through a tool `artesaos/seotools`
 
