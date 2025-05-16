@@ -36,10 +36,15 @@ php artisan db:seed
 ```
 ## Cache
 ```bash
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan optimize
 ```
-
+## Execute Schedule
+```bash
+php artisan schedule:work
+```
+or with cron job
+```bash
+* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+```
 # Contributing
 Contributions are welcome!

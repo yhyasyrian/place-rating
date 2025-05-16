@@ -23,6 +23,7 @@ class="scroll-smooth"
     @endisset
     <!-- Styles -->
     @livewireStyles
+    @include('feed::links')
 </head>
 
 <body class="font-['Rubik'] antialiased">

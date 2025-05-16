@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Spatie\Feed\{Feedable, FeedItem};
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,33 +10,42 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Sitemap\Tags\Url;
+use Spatie\Sitemap\Contracts\Sitemapable;
 
-class Place extends Model
+class Place extends Model implements Feedable, Sitemapable
 {
     /** @use HasFactory<\Database\Factories\PlaceFactory> */
     use HasFactory;
 
     protected $table = 'places';
     protected $fillable = [
-        'name', 'slug', 'photo', 'description', 'address', 'latitude', 'longitude', 'view_count'
+        'name',
+        'slug',
+        'photo',
+        'description',
+        'address',
+        'latitude',
+        'longitude',
+        'view_count'
     ];
     protected $casts = [
         'view_count' => 'integer'
     ];
     private $reviewsAverage;
-    public function categories():BelongsToMany
+    public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class,'place_category','place_id','category_id');
+        return $this->belongsToMany(Category::class, 'place_category', 'place_id', 'category_id');
     }
-    public function usersBookmark():BelongsToMany
+    public function usersBookmark(): BelongsToMany
     {
-        return $this->belongsToMany(User::class,'bookmarks','place_id','user_id');
+        return $this->belongsToMany(User::class, 'bookmarks', 'place_id', 'user_id');
     }
-    public function reviews():HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
-    public function reviewsAverage():array
+    public function reviewsAverage(): array
     {
         if ($this->reviewsAverage) {
             return $this->reviewsAverage;
@@ -47,27 +57,49 @@ class Place extends Model
             DB::raw('AVG(quality_rating) as quality_average'),
             DB::raw('count(quality_rating) as count'),
         ])->first()->toArray();
-        $this->reviewsAverage = array_map(function($item){
-            return round($item,1);
-        },$this->reviewsAverage);
+        $this->reviewsAverage = array_map(function ($item) {
+            return round($item, 1);
+        }, $this->reviewsAverage);
         return $this->reviewsAverage;
     }
-    public function scopeAvgRating(Builder $query):Builder
+    public function scopeAvgRating(Builder $query): Builder
     {
         $query->leftJoin('reviews', 'places.id', '=', 'reviews.place_id')
             ->select('places.*', DB::raw('(AVG(`reviews`.`service_rating`) + AVG(`reviews`.`quality_rating`) + AVG(`reviews`.`cleanliness_rating`) + AVG(`reviews`.`price_rating`)) / 4 AS `avg`'))
             ->groupBy('places.id');
         return $query;
     }
-    public function reports():HasMany
+    public function reports(): HasMany
     {
         return $this->hasMany(Report::class);
     }
-    public function getImageLinkAttribute():string
+    public function getImageLinkAttribute(): string
     {
-        if (str_starts_with($this->photo,'http')){
+        if (str_starts_with($this->photo, 'http')) {
             return $this->photo;
         }
         return Storage::disk('public')->url($this->photo);
+    }
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create([
+            'id' => $this->id,
+            'title' => $this->name,
+            'summary' => $this->description,
+            'updated' => $this->updated_at,
+            'link' => route('place.show', $this->slug),
+            'photo' => $this->getImageLinkAttribute(),
+            'authorName' => config('app.name'),
+        ]);
+    }
+    public static function getAllFeedItems()
+    {
+        return static::all();
+    }
+    public function toSitemapTag(): Url|string|array
+    {
+        return Url::create(route('place.show', $this->slug))
+            ->setLastModificationDate($this->updated_at)
+            ->setPriority(0.8);
     }
 }

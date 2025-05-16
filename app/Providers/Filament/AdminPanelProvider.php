@@ -62,6 +62,7 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->assets([
                 Css::make('setting-page', asset('css/filament/setting-page.css')),
-            ]);
+            ])
+            ;
     }
 }
