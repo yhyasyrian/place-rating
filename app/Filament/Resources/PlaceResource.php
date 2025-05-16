@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Place;
+use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -54,7 +55,13 @@ class PlaceResource extends Resource
                     ->imageEditorAspectRatios([
                         '16:9'
                     ])
-                    ->required(),
+                    ->required(fn($operation) => $operation === 'create')
+                    ->dehydrated(false)                    ,
+                Forms\Components\Select::make('categories')
+                    ->label('التصنيفات')
+                    ->multiple()
+                    ->relationship('categories', 'name')
+                    ->preload(),
             ]);
     }
 

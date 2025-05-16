@@ -94,7 +94,7 @@
         <script>
             function updateStars(input) {
                 const rating = parseInt(input.value);
-                const currentStars = input.closest('.flex').querySelectorAll('svg');
+                const currentStars = input.closest('.flex').querySelectorAll('i');
                 currentStars.forEach(star => {
                     const starRating = parseInt(star.dataset.rating);
                     if (starRating <= rating) {
