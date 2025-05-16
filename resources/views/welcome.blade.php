@@ -1,3 +1,3 @@
 <x-app-layout>
-    sd
+    @include('layouts.header')
 </x-app-layout>

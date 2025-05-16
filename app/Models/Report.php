@@ -9,10 +9,14 @@ class Report extends Model
 {
     public $timestamps = false;
     protected $table = 'reports';
-    protected $fillable = ['name', 'email', 'place_id', 'created_at'];
+    protected $fillable = ['user_id', 'place_id', 'created_at'];
 
     public function place(): BelongsTo
     {
         return $this->belongsTo(Place::class);
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

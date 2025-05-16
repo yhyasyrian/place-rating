@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -16,15 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'worker']);
-        Role::create(['name' => 'user']);
-        // create user
-        User::create([
-            'name' => config('app.admin.name'),
-            'email' => config('app.admin.email'),
-            'password' => Hash::make(config('app.admin.password')),
-        ])->assignRole('admin');
+        $this->call(SettingSeeder::class);
+        $this->call(RuleWithPermissionSeeder::class);
+        $this->call(CreateAdminSeeder::class);
         if (!app()->isProduction())
             $this->call(CreateTestDataSeeder::class);
     }

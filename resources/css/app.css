@@ -5,3 +5,8 @@
 [x-cloak] {
     display: none;
 }
+@layer components {
+    ::selection {
+        @apply bg-primary-400 text-white;
+    }
+}

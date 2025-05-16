@@ -1,0 +1,11 @@
+#setting-page .grid.grid-inputs{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    #setting-page .grid.grid-inputs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

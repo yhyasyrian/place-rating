@@ -3,6 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +17,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable  implements FilamentUser, HasAvatar
 {
     use HasApiTokens, HasRoles;
 
@@ -32,6 +36,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_photo_path',
     ];
 
     /**
@@ -78,5 +83,20 @@ class User extends Authenticatable
     public function reviews():HasMany
     {
         return $this->hasMany(Review::class);
+    }
+    public function reports():HasMany
+    {
+        return $this->hasMany(Report::class);
+    }
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->canAccessToFilamentPanel();
+    }
+    public function canAccessToFilamentPanel() : bool {
+        return $this->hasRole(['administrator','manager']);
+    }
+    public function getFilamentAvatarUrl(): string|null
+    {
+        return $this->profile_photo_url;
     }
 }
