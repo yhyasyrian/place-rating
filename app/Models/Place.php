@@ -100,6 +100,7 @@ class Place extends Model implements Feedable, Sitemapable
     {
         return Url::create(route('place.show', $this->slug))
             ->setLastModificationDate($this->updated_at)
+            ->addImage($this->getImageLinkAttribute())
             ->setPriority(0.8);
     }
 }

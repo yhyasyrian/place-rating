@@ -53,10 +53,10 @@ class PlaceResource extends Resource
                     ->image()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
-                        '16:9'
+                        '6:4'
                     ])
                     ->required(fn($operation) => $operation === 'create')
-                    ->dehydrated(false)                    ,
+                    ->dehydrated(fn($state) => filled($state)),
                 Forms\Components\Select::make('categories')
                     ->label('التصنيفات')
                     ->multiple()
