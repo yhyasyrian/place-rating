@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(SettingSeeder::class);
-        $this->call(RuleWithPermissionSeeder::class);
-        $this->call(CreateAdminSeeder::class);
-        if (!app()->isProduction())
-            $this->call(CreateTestDataSeeder::class);
+        $this->call([
+            SettingSeeder::class,
+            RuleWithPermissionSeeder::class,
+            CreateAdminSeeder::class,
+        ]);
     }
 }
