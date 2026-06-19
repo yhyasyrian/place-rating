@@ -58,7 +58,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->font('Rubik', provider: GoogleFontProvider::class)
-            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->spa()
             ->assets([
                 Css::make('setting-page', asset('css/filament/setting-page.css')),
