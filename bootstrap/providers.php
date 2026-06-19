@@ -8,4 +8,5 @@ return [
     Barryvdh\Debugbar\ServiceProvider::class,
     Spatie\Permission\PermissionServiceProvider::class,
     Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+    YhyaSyrian\ComposerAuditWebhook\Providers\ComposerAuditWebhookServiceProvider::class,
 ];

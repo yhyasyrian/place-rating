@@ -1,0 +1,54 @@
+{
+    "name": "yhyasyrian/composer-audit-webhook",
+    "description": "A Laravel package that runs composer audit and sends security vulnerability reports to a configurable webhook URL.",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "composer",
+        "audit",
+        "security",
+        "webhook",
+        "vulnerability"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "yhyasyrian",
+            "email": "contact@yhyanesb.sy"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/console": "^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^11.0|^12.0|^13.0",
+        "illuminate/http": "^11.0|^12.0|^13.0",
+        "illuminate/process": "^11.0|^12.0|^13.0",
+        "illuminate/support": "^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "YhyaSyrian\\ComposerAuditWebhook\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "YhyaSyrian\\ComposerAuditWebhook\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "YhyaSyrian\\ComposerAuditWebhook\\Providers\\ComposerAuditWebhookServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
